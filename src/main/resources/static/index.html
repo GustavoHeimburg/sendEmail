@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Enviar E-mail</title>
+
+</head>
+<body>
+<form id="emailForm">
+    <input type="email" id="email" placeholder="Digite seu e-mail" required>
+    <button type="submit">Enviar E-mail</button>
+</form>
+
+<script>
+    document.getElementById('emailForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede o envio do formulário padrão
+        var email = document.getElementById('email').value;
+        sendEmail(email);
+    });
+
+    function sendEmail(email) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/sendEmail', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    alert(xhr.responseText); // Exibe a resposta do servidor
+                } else {
+                    alert('Erro ao enviar o e-mail');
+                }
+            }
+        };
+        xhr.send('email=' + encodeURIComponent(email));
+    }
+</script>
+</body>
+</html>
